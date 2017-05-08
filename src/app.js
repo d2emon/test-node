@@ -1,4 +1,6 @@
 var express = require('express');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -24,6 +26,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(methodOverride('_method'));
 app.use(cookieParser());
+app.use(session({
+  secret: 'ThereIsNoSecret',
+  store: new MongoStore({ mongooseConnection: db})
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -66,5 +72,6 @@ app.use(function(err, req, res, next) {
 app.use(errorhandler());
 
 Document = require('./models.js').Document(db);
+User = require('./models.js').User(db);
 
 module.exports = app;

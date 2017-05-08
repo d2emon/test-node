@@ -84,4 +84,21 @@ router.delete('/documents/:id.:format?', function(req, res) {
   });
 });
 
+router.get('/sessions/new', function(req, res) {
+  res.render('sessions/new', {
+    user: new User
+  });
+});
+
+router.post('/sessions', function(req, res) {
+  //
+});
+
+router.delete('/sessions', function(req, res) {
+  if (req.session) {
+    req.session.destroy(function() {});
+  }
+  res.redirect('sessions/new');
+});
+
 module.exports = router;
