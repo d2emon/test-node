@@ -3,11 +3,20 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/aristo/Aristo.css')
     script(type='text/javascript',
-      src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js')
+      src='/bower/jquery/dist/jquery.min.js')
+    script(type='text/javascript',
+      src='/bower/jquery-ui/jquery-ui.min.js')
   body
-    - if (typeof currentUser !== 'undefined')
-      p
-        a(href='/sessions', class='destroy') Log Out
-    block content
+    div(id='container')
+      div(id='header')
+        ul
+          li
+            h1
+              a(href='/') Nodepad
+          - if (typeof currentUser !== 'undefined')
+            li(class='right')
+              a(href='/sessions', class='destroy') Log Out
+      block content
     script(type='text/javascript', src='/javascripts/application.js')

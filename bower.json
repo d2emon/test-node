@@ -1,0 +1,22 @@
+{
+  "name": "test-node",
+  "description": "Tsting Node.js",
+  "main": "src/app.js",
+  "authors": [
+    "Dmitry Kutsenko <d2emonium@gmail.com>"
+  ],
+  "license": "GPL 3",
+  "homepage": "https://github.com/d2emon/test-node",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "src/node_modules",
+    "src/bower_components",
+    "src/test",
+    "src/tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "jquery-ui": "^1.12.1"
+  }
+}

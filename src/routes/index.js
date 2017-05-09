@@ -29,7 +29,7 @@ router.post('/documents.:format?', function(req, res) {
   document.save(function() {
     switch (req.params.format) {
       case 'json':
-        res.send(document.__doc);
+        res.send(document._doc);
         break;
       default:
         res.redirect('/documents');
@@ -52,16 +52,28 @@ router.get('/documents/new', function(req, res) {
 });
 
 router.get('/documents/:id.:format?', function(req, res) {
+  Document.findById(req.params.id, function(err, d) {
+    switch (req.params.format) {
+      case 'json':
+        res.send(d._doc);
+        break;
+      default:
+        res.render('documents/view', {
+          d: d
+        });
+    }
+  });
 });
 
 router.put('/documents/:id.:format?', function(req, res) {
   Document.findById(req.body.document.id, function(err, d) {
-    d.title = req.body.document.title;
+    var title = req.body.document.title;
+    d.title = title || d.title;
     d.data = req.body.document.data;
     d.save(function() {
       switch (req.params.format) {
         case 'json':
-          res.send(d.__doc);
+          res.send(d._doc);
 	  break;
 	default:
 	  res.redirect('/documents');
@@ -75,7 +87,7 @@ router.delete('/documents/:id.:format?', function(req, res) {
     d.remove(function() {
       switch (req.params.format) {
         case 'json':
-          res.send(d.__doc);
+          res.send(d._doc);
 	  break;
 	default:
 	  res.redirect('/documents');
