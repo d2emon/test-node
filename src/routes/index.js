@@ -119,7 +119,16 @@ router.get('/sessions/new', function(req, res) {
 });
 
 router.post('/sessions', function(req, res) {
-  //
+  User.findOne({email: req.body.user.email}).exec(function(err, user) {
+    if (user && user.authenticate(req.body.user.password)) {
+      req.session.user_id = user_id;
+      res.redirect('/documents');
+    } else {
+      console.log("REDIRECT");
+      req.flash('error', 'Wrong data');
+      res.redirect('/sessions/new');
+    }
+  });
 });
 
 router.delete('/sessions', function(req, res) {

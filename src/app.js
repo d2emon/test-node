@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var mongoose = require('mongoose');
 var db = mongoose.createConnection('mongodb://localhost/nodepad');
+var flash = require('connect-flash');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -30,6 +31,7 @@ app.use(session({
   secret: 'ThereIsNoSecret',
   store: new MongoStore({ mongooseConnection: db})
 }));
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -71,6 +73,11 @@ app.use(function(err, req, res, next) {
     });
 });
 app.use(errorhandler());
+
+app.use(function(err, req, res, next) {
+  require('./helpers.js').dynamicHelpers
+  next();
+});
 
 Document = require('./models.js').Document(db);
 User = require('./models.js').User(db);
