@@ -43,6 +43,7 @@
     "less-plugin-autoprefix": "^1.5.1",
     "less-plugin-clean-css": "^1.5.1",
     "method-override": "^2.3.8",
+    "mongoose": "^4.9.8",
     "morgan": "~1.0.0",
     "static-favicon": "~1.0.0"
   },
