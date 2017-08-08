@@ -33,15 +33,13 @@ FlashMessage.prototype = {
   }
 }
 
-exports.dynamicHelpers = {
-  flashMessages: function(req, res) {
-    var html = '';
-    ['error', 'info'].forEach(function(type) {
-      var messages = req.flash(type);
-      if (messages.length > 0) {
-        html += new FlashMessage(type, messages).toHTML();
-      }
-    });
-    return html;
-  }
+exports.flashMessages = function(req, res) {
+  var html = '';
+  ['error', 'info'].forEach(function(type) {
+    var messages = req.flash(type);
+    if (messages.length > 0) {
+      html += new FlashMessage(type, messages).toHTML();
+    }
+  });
+  return html;
 };

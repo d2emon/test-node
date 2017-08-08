@@ -34,6 +34,12 @@ app.use(session({
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(err, req, res, next) {
+  res.locals.appName = 'Nodepad';
+  res.locals.flashMessages = require('./helpers.js').flashMessages
+  next();
+});
+
 app.use('/', routes);
 app.use('/users', users);
 
@@ -73,11 +79,6 @@ app.use(function(err, req, res, next) {
     });
 });
 app.use(errorhandler());
-
-app.use(function(err, req, res, next) {
-  require('./helpers.js').dynamicHelpers
-  next();
-});
 
 Document = require('./models.js').Document(db);
 User = require('./models.js').User(db);

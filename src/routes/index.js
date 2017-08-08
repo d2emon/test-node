@@ -116,6 +116,9 @@ router.get('/sessions/new', function(req, res) {
   res.render('sessions/new', {
     user: new User
   });
+  console.log("locals");
+  console.log(res.locals);
+  console.log(req.flash('error'));
 });
 
 router.post('/sessions', function(req, res) {
