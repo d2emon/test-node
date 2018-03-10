@@ -7,7 +7,7 @@ block content
         - for (var d in documents)
           li
             a(id='document-title-' + documents[d].id, href='/documents/' + documents[d].id)
-              = documents[d].title
+              = documents[d].title || '<UNTITLED>'
       
     ul(class='toolbar')
       li
@@ -20,7 +20,8 @@ block content
   div(class='content')
     div(id='editor-container')
       textarea(name='d[data]', id='editor')
-        =d.data || ''
+        - if (d)
+          =d.data || ''
 
   ul(id='controls', class='toolbar')
     li

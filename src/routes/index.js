@@ -39,6 +39,10 @@ router.post('/documents.:format?', function(req, res) {
 
 router.get('/documents/:id.:format?/edit', function(req, res) {
   Document.findById(req.params.id, function(err, d) {
+    if (!d) {
+	res.status(404).send('Not found');
+	return;
+    }
     res.render('documents/edit', {
       d: d
     });
@@ -53,6 +57,10 @@ router.get('/documents/new', function(req, res) {
 
 router.get('/documents/:id.:format?', function(req, res) {
   Document.findById(req.params.id, function(err, d) {
+    if (!d) {
+	res.status(404).send('Not found');
+	return;
+    }
     switch (req.params.format) {
       case 'json':
         res.send(d._doc);
@@ -67,6 +75,10 @@ router.get('/documents/:id.:format?', function(req, res) {
 
 router.put('/documents/:id.:format?', function(req, res) {
   Document.findById(req.body.document.id, function(err, d) {
+    if (!d) {
+	res.status(404).send('Not found');
+	return;
+    }
     var title = req.body.document.title;
     d.title = title || d.title;
     d.data = req.body.document.data;
@@ -84,6 +96,10 @@ router.put('/documents/:id.:format?', function(req, res) {
 
 router.delete('/documents/:id.:format?', function(req, res) {
   Document.findById(req.params.id, function(err, d) {
+    if (!d) {
+	res.status(404).send('Not found');
+	return;
+    }
     d.remove(function() {
       switch (req.params.format) {
         case 'json':
@@ -100,10 +116,22 @@ router.get('/sessions/new', function(req, res) {
   res.render('sessions/new', {
     user: new User
   });
+  console.log("locals");
+  console.log(res.locals);
+  console.log(req.flash('error'));
 });
 
 router.post('/sessions', function(req, res) {
-  //
+  User.findOne({email: req.body.user.email}).exec(function(err, user) {
+    if (user && user.authenticate(req.body.user.password)) {
+      req.session.user_id = user_id;
+      res.redirect('/documents');
+    } else {
+      console.log("REDIRECT");
+      req.flash('error', 'Wrong data');
+      res.redirect('/sessions/new');
+    }
+  });
 });
 
 router.delete('/sessions', function(req, res) {
